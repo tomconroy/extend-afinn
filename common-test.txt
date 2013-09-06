@@ -1,0 +1,7 @@
+v [shed%2:35:00::] [shed] spill, disgorge
+v [shift%2:38:01::] [budge] shift, stir
+v [shine%2:35:00::] [polish] shine
+v [shine%2:39:01::] [shine] glitter, glisten, glint, gleam
+v [shiver%2:29:00::] [shiver] shudder
+v [shock%2:37:01::] [stun] floor, surprise greatly
+v [shock%2:37:02::] [shock] offend, scandalize, outrage
