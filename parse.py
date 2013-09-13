@@ -11,11 +11,17 @@ db = client.mivor
 words_collection = db.words
 
 
-adjectives = open('common-adjectives-parsed.txt')
+adjectives = open('adjectives-parsed.txt')
 
-output = open('common-synonyms.json', 'w')
+output = open('synonyms.json', 'w')
 output.write('{\n')
 
+
+afinn = open('afinn.txt')
+afinn_list = []
+
+for l in afinn.readlines():
+  afinn_list.append(l.split()[0])
 
 for l in adjectives.readlines():
   word = l.strip()
@@ -25,9 +31,13 @@ for l in adjectives.readlines():
   for synset in synsets:
     synonyms = list(set(synonyms) | set(synset.lemma_names))
   
-  output.write('  "%s" : %s,\n' % (word, synonyms))
+  # synonyms_in_afinn = [word for word in synonyms if word in afinn_list]
+  synonyms_in_afinn = list( set(synonyms) & set(afinn_list) )
   
-  print word, synonyms
+  if len(synonyms_in_afinn):
+    output.write('  "%s" : %s,\n' % (word, synonyms_in_afinn))
+  
+    print word, synonyms_in_afinn
 
 
 output.write('}')
