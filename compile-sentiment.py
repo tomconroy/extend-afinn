@@ -4,9 +4,9 @@ from nltk.corpus import wordnet as wn
 
 
 adjectives = open('adjectives-parsed.txt')
+#adjectives = open('adj-test.txt')
 
-# output = open('sentiments.json', 'w')
-# output.write('{\n')
+
 
 
 afinn_file = open('afinn.txt')
@@ -20,15 +20,21 @@ for l in afinn_file.readlines():
   afinn[key] = value
 
 
-synonymValues = {}
+synonym_values = {}
 
 for l in adjectives.readlines():
   word = l.strip()
   synsets = wn.synsets(word)
   
+  # get first order synonyms
   synonyms = set()
   for synset in synsets:
     synonyms = set(synonyms) | set(synset.lemma_names)
+  
+  # add in synonyms of those synonyms
+  for syn in synonyms:
+    for syn_synset in wn.synsets(syn):
+      synonyms = set(synonyms) | set(syn_synset.lemma_names)
   
   synonyms_in_afinn = set(synonyms) & set(afinn.keys())
   
@@ -38,29 +44,22 @@ for l in adjectives.readlines():
   avg = 0
   total = 0
   for syn in synonyms_in_afinn:
-    value = int(afinn[syn])
+    value = float(afinn[syn])
     avg = (avg * total + value) / (total + 1)
     total += 1
   
-  synonymValues[word] = avg
-    
-    
-    # -  window.synonymValues = {}
-    # -  for word of synonymList
-    # -    synonyms = window.synonymList[word]
-    # -    i = 0
-    # -    total = 0
-    # -    avg = 0
-    # -    while i < synonyms.length
-    # -      if val = window.afinnList[synonyms[i]]
-    # -        avg = (avg * total + val) / (total + 1)
-    # -        total++
-    # -      i++
-    # -    window.synonymValues[word] = Math.round(avg)
-  
-print synonymValues
+  synonym_values[word] = int(avg)
 
-# output.write('}')
+
+all_synonyms = dict( synonym_values.items() + afinn.items() )
+
+output = open('sentiments.json', 'w')
+output.write('{\n')
+
+for word in all_synonyms:
+  output.write('  "%s" : %s,\n' % (word, all_synonyms[word]))
+  
+output.write('}')
 
 adjectives.close()
 afinn_file.close()
