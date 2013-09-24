@@ -20978,7 +20978,6 @@ wearisome
 weary
 wearying
 weasel-worded
-weather
 weather-beaten
 weather-bound
 weather-stripped

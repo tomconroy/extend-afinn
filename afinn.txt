@@ -2475,3 +2475,25 @@ yummy	3
 zealot	-2
 zealots	-2
 zealous	2
+
+lot 2
+lots 2
+much 2
+heaps 3
+loads 3
+ton 4
+extreme 4
+few -2
+enough -1
+none -2
+absolutely 4
+OK 2
+now -1
+nope -2
+do 2
+don't -2
+am 2
+would 2
+special 3
+raining -2
+snowing -3
